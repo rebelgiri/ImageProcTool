@@ -27,7 +27,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void open_dir(QString fileName);
+    void open_dir();
     bool eventFilter(QObject *obj, QEvent *event);
 
 private slots:
@@ -40,6 +40,7 @@ private:
     QPixmap image;
     QImage  *imageObject;
     QGraphicsScene *scene;
+    QString fileName;
 
 };
 #endif // MAINWINDOW_H

@@ -17,11 +17,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_open_dir_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "Select Image", QDir::homePath());
-    open_dir(fileName);
+    fileName = QFileDialog::getOpenFileName(this, "Select Image", QDir::homePath());
+    open_dir();
 
 }
-void MainWindow::open_dir(QString fileName){
+void MainWindow::open_dir(){
 
     /*Mat img;
     img = imread(fileName.toUtf8().constData());
@@ -96,12 +96,32 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     double x = img_coord_pt.x();
     double y = img_coord_pt.y();
 
-    //QColor color = QColor(image.toImage().pixel(x,y));
+    QColor color = QColor(image.toImage().pixel(x,y));
     //int average = (color.red()+color.green()+color.blue())/3;
 
-    ui->lineEdit->setText(QString::number(x));
-    ui->lineEdit_2->setText(QString::number(y));
+    //ui->lineEdit->setText(QString::number(x));
+    //ui->lineEdit_2->setText(QString::number(y));
    // ui->label_Value->setText(QString::number(average));
+
+
+    // RGB Color
+    QRgb rgbValue = image.toImage().pixel(x,y);
+    QString rgbValueToDisply = QString::number(qRed(rgbValue)) + " " +
+                               QString::number(qGreen(rgbValue)) + " " +
+                               QString::number(qBlue(rgbValue)) ;
+    ui->rgb_color_values->setText(rgbValueToDisply);
+
+    // HSV Color
+    QString hsvValueToDisply = QString::number(color.hue()) + " " +
+                               QString::number(color.saturation())+ " " +
+                               QString::number(color.value()) ;
+     ui->hsv_color_values->setText(hsvValueToDisply);
+
+     // LAB Color Conversion
+
+
+
+
 
     return true;
   } else {
