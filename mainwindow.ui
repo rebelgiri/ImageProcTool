@@ -78,7 +78,14 @@
     <item row="1" column="0">
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QGraphicsView" name="display_image"/>
+       <widget class="QGraphicsView" name="display_image">
+        <property name="mouseTracking">
+         <bool>true</bool>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Box</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>

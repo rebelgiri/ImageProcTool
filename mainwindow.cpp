@@ -1,15 +1,4 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "QFileDialog"
-#include "QMessageBox"
-#include "QDir"
-#include "QGraphicsPixmapItem"
-#include "QTimer"
-#include "opencv2/imgproc/imgproc.hpp"
-#include "opencv2/highgui/highgui.hpp"
-#include "opencv2\core\core.hpp"
-
-using namespace cv;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -67,12 +56,11 @@ void MainWindow::open_dir(QString fileName){
     scene->addPixmap(image);
     scene->setSceneRect(image.rect());
     ui->display_image->setScene(scene);
+    ui->display_image->setMouseTracking(true);
+    scene->installEventFilter(this);
 
 
 }
-
-
-
 
 void MainWindow::on_save_image_clicked()
 {
@@ -96,4 +84,27 @@ void MainWindow::on_save_image_clicked()
           tr("No Image Save In The Image Viewer Windows") );
     }
 
+}
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+  if (event->type() ==  QEvent::GraphicsSceneMouseMove ) {
+    QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent*>(event);
+
+    QPointF img_coord_pt = mouseEvent->scenePos();
+
+    double x = img_coord_pt.x();
+    double y = img_coord_pt.y();
+
+    //QColor color = QColor(image.toImage().pixel(x,y));
+    //int average = (color.red()+color.green()+color.blue())/3;
+
+    ui->lineEdit->setText(QString::number(x));
+    ui->lineEdit_2->setText(QString::number(y));
+   // ui->label_Value->setText(QString::number(average));
+
+    return true;
+  } else {
+    return QObject::eventFilter(obj, event);
+  }
 }
